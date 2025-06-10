@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - SplitMate</title>
+</head>
+<body>
+  <h2>Create Account</h2>
+
+  <form onsubmit="alert('Form submitted! Backend not connected.'); return false;">
+    
+    <label>Full Name:
+      <input type="text" name="fullname" required minlength="2" maxlength="50">
+    </label><br><br>
+
+    <label>Username:
+      <input type="text" name="username" required pattern="[A-Za-z0-9_]{4,15}" title="4-15 letters, numbers or underscores">
+    </label><br><br>
+
+    <label>Email:
+      <input type="email" name="email" required>
+    </label><br><br>
+
+    <label>Mobile Number:
+      <input type="tel" name="mobile" pattern="[0-9]{10}" required placeholder="10-digit number">
+    </label><br><br>
+
+    <label>Password:
+      <input type="password" name="password" required minlength="6" maxlength="20">
+    </label><br><br>
+
+    <label>Confirm Password:
+      <input type="password" name="confirm_password" required minlength="6" maxlength="20">
+    </label><br><br>
+
+    <label>Gender:
+      <input type="radio" name="gender" value="male" required> Male
+      <input type="radio" name="gender" value="female"> Female
+      <input type="radio" name="gender" value="other"> Other
+    </label><br><br>
+
+    <label>Date of Birth:
+      <input type="date" name="dob" required>
+    </label><br><br>
+
+    <label>Preferred Currency:
+      <select name="currency" required>
+        <option value="">--Select--</option>
+        <option value="INR">INR (₹)</option>
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+        <option value="GBP">GBP (£)</option>
+      </select>
+    </label><br><br>
+
+    <label>Location:
+      <select name="location" required>
+        <option value="">--Select Country--</option>
+        <option value="India">India</option>
+        <option value="USA">United States</option>
+        <option value="UK">United Kingdom</option>
+        <option value="Germany">Germany</option>
+        <option value="Canada">Canada</option>
+      </select>
+    </label><br><br>
+
+    <label>
+      <input type="checkbox" name="terms" required> I agree to the Terms and Conditions
+    </label><br><br>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <p>Already have an account? <a href="index.html">Login here</a></p>
+</body>
+</html>
