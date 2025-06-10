@@ -2,28 +2,199 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Welcome to SplitMate</title>
+  <title>Login - SplitMate</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    body {
+      background: url('https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    .main-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 60px 80px;
+      min-height: 100vh;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .left-info {
+      flex: 1;
+      min-width: 300px;
+      padding-right: 30px;
+      color: #ffffff;
+    }
+
+    .left-info h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    }
+
+    .left-info p {
+      font-size: 16px;
+      margin-bottom: 12px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    }
+
+    .right-form {
+      width: 400px;
+      background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent */
+      padding: 40px 30px;
+      border-radius: 10px;
+      margin-left: auto;
+      box-shadow: -6px 0 15px rgba(0,0,0,0.3);
+      align-self: flex-start;
+    }
+
+    .right-form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form label {
+      display: block;
+      margin-top: 15px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    p.login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    p.login-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    p.login-link a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .right-form {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 30px;
+      }
+
+      .left-info {
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to SplitMate</h1>
-  <h3>Split bills. Save money. Stay friends.</h3>
+  <div class="main-container">
+    <div class="left-info">
+      <h1>Welcome to SplitMate</h1>
+      <p><strong>SplitMate</strong> is your go-to solution for managing shared expenses among friends, roommates, or travel groups.</p>
+      <p>Going out with friends? On a group trip? Roommates splitting bills? We've got your back!</p>
+      <p>✅ Easily track who paid what</p>
+      <p>✅ Automatically calculate balances</p>
+      <p>✅ Get suggestions to limit overspending</p>
+      <p>✅ Understand where your money goes</p>
+      <p>Start managing your finances smarter — together.</p>
+    </div>
 
-  <form action="login.php" method="post">
-    <fieldset>
-      <legend>Login</legend>
+    <div class="right-form">
+      <h2>Login to Continue</h2>
+      <form id="loginForm">
+        <label>Email or Username:
+          <input type="text" name="identifier" required minlength="4" placeholder="Enter email or username">
+        </label>
 
-      <label>Email or Username:
-        <input type="text" name="identifier" required>
-      </label><br><br>
+        <label>Password:
+          <input type="password" name="password" required minlength="6" placeholder="Enter password">
+        </label>
 
-      <label>Password:
-        <input type="password" name="password" required>
-      </label><br><br>
+        <button type="submit">Login</button>
+      </form>
 
-      <button type="submit">Login</button>
-    </fieldset>
-  </form>
+      <p class="login-link">New user? <a href="register.html">Register here</a></p>
+    </div>
+  </div>
 
-  <p>New user? <a href="register.html">Register Now</a></p>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      const id = e.target.identifier.value.trim();
+      const password = e.target.password.value;
+
+      if (id.length < 4) {
+        alert("Please enter a valid username or email (minimum 4 characters).");
+        e.preventDefault();
+        return;
+      }
+
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters long.");
+        e.preventDefault();
+        return;
+      }
+
+      alert("Login submitted! Backend not connected.");
+      e.preventDefault(); // Remove when backend is added
+    });
+  </script>
 </body>
 </html>
