@@ -3,74 +3,212 @@
 <head>
   <meta charset="UTF-8">
   <title>Register - SplitMate</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: url('https://images.unsplash.com/photo-1606312619344-7511b4c0d42d?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form label {
+      display: block;
+      margin-top: 15px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .gender-options {
+      display: flex;
+      gap: 15px;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    p a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    p a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h2>Create Account</h2>
+  <div class="container">
+    <h2>Create Account</h2>
 
-  <form onsubmit="alert('Form submitted! Backend not connected.'); return false;">
-    
-    <label>Full Name:
-      <input type="text" name="fullname" required minlength="2" maxlength="50">
-    </label><br><br>
+    <form id="registerForm">
+      <label>Full Name:
+        <input type="text" name="fullname" required minlength="2" maxlength="50">
+      </label>
 
-    <label>Username:
-      <input type="text" name="username" required pattern="[A-Za-z0-9_]{4,15}" title="4-15 letters, numbers or underscores">
-    </label><br><br>
+      <label>Username:
+        <input type="text" name="username" required pattern="[A-Za-z0-9_]{4,15}" title="4-15 letters, numbers or underscores">
+      </label>
 
-    <label>Email:
-      <input type="email" name="email" required>
-    </label><br><br>
+      <label>Email:
+        <input type="email" name="email" required>
+      </label>
 
-    <label>Mobile Number:
-      <input type="tel" name="mobile" pattern="[0-9]{10}" required placeholder="10-digit number">
-    </label><br><br>
+      <label>Mobile Number:
+        <input type="tel" name="mobile" pattern="[0-9]{10}" required placeholder="10-digit number">
+      </label>
 
-    <label>Password:
-      <input type="password" name="password" required minlength="6" maxlength="20">
-    </label><br><br>
+      <label>Password:
+        <input type="password" name="password" required>
+      </label>
 
-    <label>Confirm Password:
-      <input type="password" name="confirm_password" required minlength="6" maxlength="20">
-    </label><br><br>
+      <label>Confirm Password:
+        <input type="password" name="confirm_password" required>
+      </label>
 
-    <label>Gender:
-      <input type="radio" name="gender" value="male" required> Male
-      <input type="radio" name="gender" value="female"> Female
-      <input type="radio" name="gender" value="other"> Other
-    </label><br><br>
+      <label>Gender:</label>
+      <div class="gender-options">
+        <label><input type="radio" name="gender" value="male" required> Male</label>
+        <label><input type="radio" name="gender" value="female"> Female</label>
+        <label><input type="radio" name="gender" value="other"> Other</label>
+      </div>
 
-    <label>Date of Birth:
-      <input type="date" name="dob" required>
-    </label><br><br>
+      <label>Date of Birth:
+        <input type="date" name="dob" required>
+      </label>
 
-    <label>Preferred Currency:
-      <select name="currency" required>
-        <option value="">--Select--</option>
-        <option value="INR">INR (₹)</option>
-        <option value="USD">USD ($)</option>
-        <option value="EUR">EUR (€)</option>
-        <option value="GBP">GBP (£)</option>
-      </select>
-    </label><br><br>
+      <label>Preferred Currency:
+        <select name="currency" required>
+          <option value="">--Select--</option>
+          <option value="INR">INR (₹)</option>
+          <option value="USD">USD ($)</option>
+          <option value="EUR">EUR (€)</option>
+          <option value="GBP">GBP (£)</option>
+        </select>
+      </label>
 
-    <label>Location:
-      <select name="location" required>
-        <option value="">--Select Country--</option>
-        <option value="India">India</option>
-        <option value="USA">United States</option>
-        <option value="UK">United Kingdom</option>
-        <option value="Germany">Germany</option>
-        <option value="Canada">Canada</option>
-      </select>
-    </label><br><br>
+      <label>Location:
+        <select name="location" required>
+          <option value="">--Select Country--</option>
+          <option value="India">India</option>
+          <option value="USA">United States</option>
+          <option value="UK">United Kingdom</option>
+          <option value="Germany">Germany</option>
+          <option value="Canada">Canada</option>
+        </select>
+      </label>
 
-    <label>
-      <input type="checkbox" name="terms" required> I agree to the Terms and Conditions
-    </label><br><br>
+      <label>
+        <input type="checkbox" name="terms" required> I agree to the Terms and Conditions
+      </label>
 
-    <button type="submit">Register</button>
-  </form>
+      <button type="submit">Register</button>
+    </form>
 
-  <p>Already have an account? <a href="index.html">Login here</a></p>
+    <p>Already have an account? <a href="index.html">Login here</a></p>
+  </div>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+      const form = e.target;
+      const password = form.password.value;
+      const confirm = form.confirm_password.value;
+      const dob = new Date(form.dob.value);
+      const today = new Date();
+
+      // Password match
+      if (password !== confirm) {
+        alert("Passwords do not match.");
+        e.preventDefault();
+        return;
+      }
+
+      // Password strength
+      const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,20}$/;
+      if (!strongPasswordPattern.test(password)) {
+        alert("Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character, and be 6–20 characters long.");
+        e.preventDefault();
+        return;
+      }
+
+      // Age check
+      const age = today.getFullYear() - dob.getFullYear();
+      const m = today.getMonth() - dob.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+      if (age < 18) {
+        alert("You must be at least 18 years old to register.");
+        e.preventDefault();
+        return;
+      }
+
+      // All validations passed
+      alert("Form submitted successfully! Backend not connected.");
+      e.preventDefault(); // Remove this line once backend is ready
+    });
+  </script>
 </body>
 </html>
