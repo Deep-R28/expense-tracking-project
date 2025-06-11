@@ -49,10 +49,32 @@
       color: #ffffff;
     }
 
-    .left-info h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    .animated-title {
+      display: inline-block;
+      perspective: 800px;
+      white-space: nowrap;
+    }
+
+    .animated-title span {
+      display: inline-block;
+      opacity: 0;
+      transform: rotateX(-90deg) scale(0.7);
+      animation: fadeIn3D 0.8s forwards;
+    }
+
+    @keyframes fadeIn3D {
+      0% {
+        opacity: 0;
+        transform: rotateX(-90deg) scale(0.7) translateY(20px);
+      }
+      60% {
+        opacity: 1;
+        transform: rotateX(20deg) scale(1.1);
+      }
+      100% {
+        opacity: 1;
+        transform: rotateX(0deg) scale(1) translateY(0);
+      }
     }
 
     .left-info p {
@@ -63,7 +85,7 @@
 
     .right-form {
       width: 400px;
-      background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent */
+      background-color: rgba(255, 255, 255, 0.85);
       padding: 40px 30px;
       border-radius: 10px;
       margin-left: auto;
@@ -147,7 +169,7 @@
 <body>
   <div class="main-container">
     <div class="left-info">
-      <h1>Welcome to SplitMate</h1>
+      <h1 class="animated-title" id="animatedTitle"></h1>
       <p><strong>SplitMate</strong> is your go-to solution for managing shared expenses among friends, roommates, or travel groups.</p>
       <p>Going out with friends? On a group trip? Roommates splitting bills? We've got your back!</p>
       <p>✅ Easily track who paid what</p>
@@ -159,7 +181,7 @@
 
     <div class="right-form">
       <h2>Login to Continue</h2>
-      <form id="loginForm" method="post" action="/login">
+      <form id="loginForm">
         <label>Email or Username:
           <input type="text" name="identifier" required minlength="4" placeholder="Enter email or username">
         </label>
@@ -176,6 +198,18 @@
   </div>
 
   <script>
+    // Animate letters with delay
+    const titleText = "Welcome to SplitMate";
+    const titleContainer = document.getElementById("animatedTitle");
+
+    titleText.split("").forEach((char, index) => {
+      const span = document.createElement("span");
+      span.innerHTML = char === " " ? "&nbsp;" : char;
+      span.style.animationDelay = `${index * 0.1}s`; // Slower reveal
+      titleContainer.appendChild(span);
+    });
+
+    // Form validation
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       const id = e.target.identifier.value.trim();
       const password = e.target.password.value;
@@ -192,9 +226,14 @@
         return;
       }
 
-      //alert("Login submitted! Backend not connected.");
-      //e.preventDefault(); // Remove when backend is added
+      alert("Login submitted! Backend not connected.");
+      e.preventDefault(); // Remove when backend is implemented
     });
   </script>
 </body>
 </html>
+
+
+
+
+

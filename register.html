@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Register - SplitMate</title>
+  <meta charset="UTF-8" />
+  <title>Register – SplitMate</title>
   <style>
+    :root {
+      --cream: #FFF4E6;
+      --brown: #6B4F4F;
+      --brown-dark: #4A2C2A;
+    }
+
     * {
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,34 +17,45 @@
 
     body {
       margin: 0;
-      padding: 0;
+      padding: 40px 20px;
       min-height: 100vh;
-      background: url('https://images.unsplash.com/photo-1606312619344-7511b4c0d42d?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-      background-size: cover;
+      background: var(--cream);
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    .container {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 30px 40px;
+    .main-container {
+      display: flex;
+      background: #fff;
+      border: 3px solid var(--brown);
       border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 500px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 80%;
+      max-width: 1100px;
+      overflow: hidden;
     }
 
-    h2 {
+    .form-container {
+      flex: 1;
+      padding: 30px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1 {
       text-align: center;
-      margin-bottom: 20px;
-      color: #333;
+      margin-bottom: 25px;
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--brown-dark);
     }
 
     form label {
       display: block;
       margin-top: 15px;
-      color: #333;
+      color: var(--brown-dark);
     }
 
     input[type="text"],
@@ -53,6 +70,7 @@
       border: 1px solid #ccc;
       border-radius: 6px;
       background: #fafafa;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     input[type="radio"],
@@ -69,24 +87,26 @@
     button {
       margin-top: 20px;
       width: 100%;
-      background-color: #007bff;
-      color: white;
+      background: var(--brown);
+      color: #fff;
       padding: 12px;
       border: none;
       border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
       transition: background 0.3s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     button:hover {
-      background-color: #0056b3;
+      background: var(--brown-dark);
     }
 
     p {
       text-align: center;
       margin-top: 20px;
       font-size: 14px;
+      color: var(--brown-dark);
     }
 
     p a {
@@ -97,118 +117,147 @@
     p a:hover {
       text-decoration: underline;
     }
+
+    .image-container {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 600px;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 900px) {
+      .main-container {
+        flex-direction: column;
+      }
+
+      .image-container {
+        height: 300px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Create Account</h2>
+  <div class="main-container">
+    <!-- Form Section -->
+    <div class="form-container">
+      <h1>Create Account</h1>
+      <form id="registerForm">
+        <label>Full Name:
+          <input type="text" name="fullname" required minlength="2" maxlength="50" />
+        </label>
 
-    <form id="registerForm" method="post" action="/register">
-      <label>Full Name:
-        <input type="text" name="fullname" required minlength="2" maxlength="50">
-      </label>
+        <label>Username:
+          <input type="text" name="username" required pattern="[A-Za-z0-9_]{4,15}" title="4–15 letters, numbers or underscores" />
+        </label>
 
-      <label>Username:
-        <input type="text" name="username" required pattern="[A-Za-z0-9_]{4,15}" title="4-15 letters, numbers or underscores">
-      </label>
+        <label>Email:
+          <input type="email" name="email" required />
+        </label>
 
-      <label>Email:
-        <input type="email" name="email" required>
-      </label>
+        <label>Mobile Number:
+          <input type="tel" name="mobile" pattern="[0-9]{10}" required placeholder="10-digit number" />
+        </label>
 
-      <label>Mobile Number:
-        <input type="tel" name="mobile" pattern="[0-9]{10}" required placeholder="10-digit number">
-      </label>
+        <label>Password:
+          <input type="password" name="password" required />
+        </label>
 
-      <label>Password:
-        <input type="password" name="password" required>
-      </label>
+        <label>Confirm Password:
+          <input type="password" name="confirm_password" required />
+        </label>
 
-      <label>Confirm Password:
-        <input type="password" name="confirm_password" required>
-      </label>
+        <label>Gender:</label>
+        <div class="gender-options">
+          <label><input type="radio" name="gender" value="male" required /> Male</label>
+          <label><input type="radio" name="gender" value="female" /> Female</label>
+          <label><input type="radio" name="gender" value="other" /> Other</label>
+        </div>
 
-      <label>Gender:</label>
-      <div class="gender-options">
-        <label><input type="radio" name="gender" value="male" required> Male</label>
-        <label><input type="radio" name="gender" value="female"> Female</label>
-        <label><input type="radio" name="gender" value="other"> Other</label>
-      </div>
+        <label>Date of Birth:
+          <input type="date" name="dob" required />
+        </label>
 
-      <label>Date of Birth:
-        <input type="date" name="dob" required>
-      </label>
+        <label>Preferred Currency:
+          <select name="currency" required>
+            <option value="">--Select--</option>
+            <option value="INR">INR (₹)</option>
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+          </select>
+        </label>
 
-      <label>Preferred Currency:
-        <select name="currency" required>
-          <option value="">--Select--</option>
-          <option value="INR">INR (₹)</option>
-          <option value="USD">USD ($)</option>
-          <option value="EUR">EUR (€)</option>
-          <option value="GBP">GBP (£)</option>
-        </select>
-      </label>
+        <label>Location:
+          <select name="location" required>
+            <option value="">--Select Country--</option>
+            <option value="India">India</option>
+            <option value="USA">United States</option>
+            <option value="UK">United Kingdom</option>
+            <option value="Germany">Germany</option>
+            <option value="Canada">Canada</option>
+          </select>
+        </label>
 
-      <label>Location:
-        <select name="location" required>
-          <option value="">--Select Country--</option>
-          <option value="India">India</option>
-          <option value="USA">United States</option>
-          <option value="UK">United Kingdom</option>
-          <option value="Germany">Germany</option>
-          <option value="Canada">Canada</option>
-        </select>
-      </label>
+        <label>
+          <input type="checkbox" name="terms" required /> I agree to the Terms and Conditions
+        </label>
 
-      <label>
-        <input type="checkbox" name="terms" required> I agree to the Terms and Conditions
-      </label>
+        <button type="submit">Register</button>
+      </form>
 
-      <button type="submit">Register</button>
-    </form>
+      <p>Already have an account? <a href="index.html">Login here</a></p>
+    </div>
 
-    <p>Already have an account? <a href="index.html">Login here</a></p>
+    <!-- Image Section -->
+    <div class="image-container">
+      <img src="https://img.freepik.com/free-vector/businessman-with-money_3446-627.jpg?semt=ais_hybrid&w=740" alt="Friends Illustration" />
+    </div>
   </div>
 
   <script>
-    document.getElementById('registerForm').addEventListener('submit', function (e) {
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
       const form = e.target;
       const password = form.password.value;
       const confirm = form.confirm_password.value;
       const dob = new Date(form.dob.value);
       const today = new Date();
 
-      // Password match
       if (password !== confirm) {
         alert("Passwords do not match.");
         e.preventDefault();
         return;
       }
 
-      // Password strength
       const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,20}$/;
       if (!strongPasswordPattern.test(password)) {
-        alert("Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character, and be 6–20 characters long.");
+        alert("Password must contain uppercase, lowercase, number, special character, and be 6–20 characters.");
         e.preventDefault();
         return;
       }
 
-      // Age check
-      const age = today.getFullYear() - dob.getFullYear();
+      let age = today.getFullYear() - dob.getFullYear();
       const m = today.getMonth() - dob.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-        age--;
-      }
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+
       if (age < 18) {
         alert("You must be at least 18 years old to register.");
         e.preventDefault();
         return;
       }
 
-      // All validations passed
-      alert("Form submitted successfully! Backend not connected.");
-      e.preventDefault(); // Remove this line once backend is ready
+      alert("Form submitted successfully! (Backend not connected)");
+      e.preventDefault(); // Remove this line when backend is ready
     });
   </script>
 </body>
 </html>
+
+
