@@ -159,7 +159,7 @@
 
     <div class="right-form">
       <h2>Login to Continue</h2>
-      <form id="loginForm">
+      <form id="loginForm" method="post" action="/login">
         <label>Email or Username:
           <input type="text" name="identifier" required minlength="4" placeholder="Enter email or username">
         </label>
@@ -192,8 +192,8 @@
         return;
       }
 
-      alert("Login submitted! Backend not connected.");
-      e.preventDefault(); // Remove when backend is added
+      //alert("Login submitted! Backend not connected.");
+      //e.preventDefault(); // Remove when backend is added
     });
   </script>
 </body>
