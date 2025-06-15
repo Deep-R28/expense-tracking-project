@@ -49,32 +49,10 @@
       color: #ffffff;
     }
 
-    .animated-title {
-      display: inline-block;
-      perspective: 800px;
-      white-space: nowrap;
-    }
-
-    .animated-title span {
-      display: inline-block;
-      opacity: 0;
-      transform: rotateX(-90deg) scale(0.7);
-      animation: fadeIn3D 0.8s forwards;
-    }
-
-    @keyframes fadeIn3D {
-      0% {
-        opacity: 0;
-        transform: rotateX(-90deg) scale(0.7) translateY(20px);
-      }
-      60% {
-        opacity: 1;
-        transform: rotateX(20deg) scale(1.1);
-      }
-      100% {
-        opacity: 1;
-        transform: rotateX(0deg) scale(1) translateY(0);
-      }
+    .left-info h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
     }
 
     .left-info p {
@@ -148,6 +126,18 @@
       text-decoration: underline;
     }
 
+    #successMsg {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border: 1px solid #c3e6cb;
+      font-weight: bold;
+      text-align: center;
+      display: none;
+    }
+
     @media (max-width: 768px) {
       .main-container {
         flex-direction: column;
@@ -169,7 +159,7 @@
 <body>
   <div class="main-container">
     <div class="left-info">
-      <h1 class="animated-title" id="animatedTitle"></h1>
+      <h1>Welcome to SplitMate</h1>
       <p><strong>SplitMate</strong> is your go-to solution for managing shared expenses among friends, roommates, or travel groups.</p>
       <p>Going out with friends? On a group trip? Roommates splitting bills? We've got your back!</p>
       <p>✅ Easily track who paid what</p>
@@ -180,6 +170,8 @@
     </div>
 
     <div class="right-form">
+      <div id="successMsg">Registration successful! You can now log in.</div>
+
       <h2>Login to Continue</h2>
       <form id="loginForm">
         <label>Email or Username:
@@ -198,18 +190,15 @@
   </div>
 
   <script>
-    // Animate letters with delay
-    const titleText = "Welcome to SplitMate";
-    const titleContainer = document.getElementById("animatedTitle");
+    // Display success message if redirected after registration
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('registered') === 'true') {
+      const msg = document.getElementById('successMsg');
+      msg.style.display = 'block';
+      // Remove the query string to clean the URL
+      history.replaceState(null, "", window.location.pathname);
+    }
 
-    titleText.split("").forEach((char, index) => {
-      const span = document.createElement("span");
-      span.innerHTML = char === " " ? "&nbsp;" : char;
-      span.style.animationDelay = `${index * 0.1}s`; // Slower reveal
-      titleContainer.appendChild(span);
-    });
-
-    // Form validation
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       const id = e.target.identifier.value.trim();
       const password = e.target.password.value;
@@ -226,14 +215,9 @@
         return;
       }
 
-      alert("Login submitted! Backend not connected.");
-      e.preventDefault(); // Remove when backend is implemented
+      // Simulate login success
+      window.location.href = "dash.html";
     });
   </script>
 </body>
 </html>
-
-
-
-
-
