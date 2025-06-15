@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - SplitMate</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://static.ffx.io/images/$zoom_0.357%2C$multiply_1.9577%2C$ratio_1.5%2C$width_756%2C$x_0%2C$y_0/t_crop_custom/q_62%2Cf_auto/be2fe55956fa708a6f472aba3f4245954cf7668c') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.7); /* More transparent */
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      border-radius: 10px;
+      margin-top: 40px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #222; /* Darkened text for contrast */
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    input, select, button, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #388E3C;
+    }
+
+    .split-output {
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.65); /* Even more transparent */
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .flex {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .flex input {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to SplitMate</h1>
+    <h2>Split Your Group Expenses</h2>
+
+    <form id="splitForm">
+      <label>Add Friends (by username):</label>
+      <div id="friendsList" class="flex">
+        <input type="text" name="friend[]" placeholder="Username" required>
+      </div>
+      <button type="button" onclick="addFriend()">+ Add Another Friend</button>
+
+      <label>Total Expense:</label>
+      <input type="number" name="totalExpense" id="totalExpense" placeholder="Total amount spent" required>
+
+      <label>Category:</label>
+      <select name="category" required>
+        <option value="">--Select--</option>
+        <option value="Room">Room</option>
+        <option value="Food">Food</option>
+        <option value="Travel">Travel</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label>Expense Details (optional):</label>
+      <textarea name="description" placeholder="e.g. Lunch at XYZ Cafe"></textarea>
+
+      <button type="submit">Split Expense</button>
+    </form>
+
+    <div class="split-output" id="result"></div>
+  </div>
+
+  <script>
+    const registeredUsers = ['alice', 'bob', 'charlie']; // Mock database of usernames
+
+    function addFriend() {
+      const friendsList = document.getElementById('friendsList');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'friend[]';
+      input.placeholder = 'Username';
+      input.required = true;
+      friendsList.appendChild(input);
+    }
+
+    document.getElementById('splitForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const friends = Array.from(form['friend[]']).map(input => input.value.trim()).filter(Boolean);
+      const total = parseFloat(form.totalExpense.value);
+      const category = form.category.value;
+      const description = form.description.value.trim();
+
+      const invalidFriends = friends.filter(f => !registeredUsers.includes(f.toLowerCase()));
+      if (invalidFriends.length > 0) {
+        alert("These usernames do not exist: " + invalidFriends.join(", "));
+        return;
+      }
+
+      if (friends.length === 0 || isNaN(total) || total <= 0 || !category) {
+        alert("Please fill in all required fields correctly.");
+        return;
+      }
+
+      const allMembers = ['You', ...friends];
+      const perPerson = (total / allMembers.length).toFixed(2);
+      const resultDiv = document.getElementById('result');
+
+      let output = `<h3>Expense Split Summary</h3>`;
+      output += `<p>Category: <strong>${category}</strong></p>`;
+      if (description) output += `<p>Description: ${description}</p>`;
+      output += `<p>Total Amount: ₹${total.toFixed(2)}</p>`;
+      output += `<p>Each Person Pays: ₹${perPerson}</p>`;
+
+      output += `<ul>`;
+      allMembers.forEach(name => {
+        output += `<li><strong>${name}</strong> owes ₹${perPerson}</li>`;
+      });
+      output += `</ul>`;
+
+      output += `<p>Notifications have been sent to: ${friends.join(', ')}</p>`;
+      resultDiv.innerHTML = output;
+    });
+  </script>
+</body>
+</html>

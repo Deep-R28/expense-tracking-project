@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - SplitMate</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://www.yourtango.com/sites/default/files/image_blog/woman-refuses-to-split-bill.png') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+    header {
+      background-color: rgba(44, 62, 80, 0.8);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .dashboard-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 20px;
+      padding: 40px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.2s, background-color 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      background-color: rgba(255, 255, 255, 0.65);
+    }
+    .card h2 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    .card p {
+      color: #333;
+      font-size: 15px;
+    }
+    .card a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .card a:hover {
+      background-color: #388E3C;
+    }
+    @media (max-width: 768px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to SplitMate Dashboard</h1>
+    <p>Your personal space for managing shared expenses and budgets</p>
+  </header>
+
+  <div class="dashboard-container">
+    <div class="card">
+      <h2>1. Split Expenses</h2>
+      <p>Calculate and divide shared costs among friends with ease.</p>
+      <a href="split.html">Go to Split Expenses</a>
+    </div>
+
+    <div class="card">
+      <h2>2. Plan Budget with Friends</h2>
+      <p>Set spending limits together for upcoming trips or events.</p>
+      <a href="budget.html">Go to Budget Planner</a>
+    </div>
+
+    <div class="card">
+      <h2>3. Analyze Your Expenses</h2>
+      <p>Review and understand your expense patterns over time.</p>
+      <a href="analyze.html">Go to Expense Analysis</a>
+    </div>
+
+    <div class="card">
+      <h2>4. Add Friends</h2>
+      <p>Connect with friends by searching their SplitMate usernames.</p>
+      <a href="addfriend.html">Go to Add Friends</a>
+    </div>
+  </div>
+</body>
+</html>
