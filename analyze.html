@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Expense Analyzer - SplitMate</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #ffffff);
+      color: #333;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #1976d2;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    select, input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #1976d2;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #125ea2;
+    }
+
+    .analysis-result {
+      background-color: #f1f8e9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+
+    .category-item {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-left: 4px solid #1976d2;
+      border-radius: 5px;
+    }
+
+    .confirmation-message {
+      text-align: center;
+      font-weight: bold;
+      color: green;
+      margin-top: 10px;
+    }
+
+    canvas {
+      margin-top: 30px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Expense Analysis</h1>
+    <p style="text-align:center;">Enter your categorized expenses and get analysis based on your selected period (optional).</p>
+
+    <form id="expenseForm">
+      <label for="period">Select Time Period (optional):</label>
+      <select id="period">
+        <option value="">-- Choose Period --</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+        <option value="Half-Yearly">Half-Yearly</option>
+        <option value="Yearly">Yearly</option>
+      </select>
+
+      <label>Expense Category:</label>
+      <input type="text" id="category" placeholder="e.g. Room, Food, Travel" required>
+
+      <label>Amount Spent:</label>
+      <input type="number" id="amount" placeholder="e.g. 5000" required>
+
+      <button type="button" onclick="addCategory()">Add to Budget</button>
+    </form>
+
+    <div id="categoryList"></div>
+    <button id="confirmBudgetBtn" onclick="confirmBudget()" style="display:none;">Confirm Budget</button>
+    <div id="confirmationMessage" class="confirmation-message" style="display:none;">✔️ Budget confirmed! Now ready for analysis.</div>
+    <button id="analyzeBtn" onclick="analyzeBudget()" style="display:none; margin-top: 10px;">Analyze Budget</button>
+
+    <div class="analysis-result" id="analysisResult"></div>
+    <canvas id="expenseChart" width="400" height="300" style="display:none;"></canvas>
+  </div>
+
+  <script>
+    const categories = [];
+
+    function addCategory() {
+      const category = document.getElementById('category').value.trim();
+      const amount = parseFloat(document.getElementById('amount').value);
+
+      if (!category || isNaN(amount) || amount <= 0) {
+        alert("Please enter valid category and amount.");
+        return;
+      }
+
+      categories.push({ category, amount });
+      updateCategoryList();
+      document.getElementById('category').value = '';
+      document.getElementById('amount').value = '';
+      document.getElementById('confirmBudgetBtn').style.display = 'block';
+    }
+
+    function updateCategoryList() {
+      const listDiv = document.getElementById('categoryList');
+      listDiv.innerHTML = '';
+      categories.forEach((entry) => {
+        const div = document.createElement('div');
+        div.className = 'category-item';
+        div.innerHTML = `<strong>${entry.category}</strong>: ₹${entry.amount.toFixed(2)}`;
+        listDiv.appendChild(div);
+      });
+    }
+
+    function confirmBudget() {
+      if (categories.length === 0) {
+        alert("No budget entries to confirm.");
+        return;
+      }
+      document.getElementById('analyzeBtn').style.display = 'block';
+      document.getElementById('confirmationMessage').style.display = 'block';
+    }
+
+    function analyzeBudget() {
+      const period = document.getElementById('period').value || 'Custom';
+      let total = 0;
+      let analysisHTML = `<h2>Analysis (${period})</h2><ul>`;
+      categories.forEach(entry => {
+        total += entry.amount;
+        const status = entry.amount > 20000 ? '⚠️ Extravagant' : '✅ Appropriate';
+        analysisHTML += `<li><strong>${entry.category}</strong>: ₹${entry.amount.toFixed(2)} - ${status}</li>`;
+      });
+      analysisHTML += `</ul><p><strong>Total Spent:</strong> ₹${total.toFixed(2)}</p>`;
+      analysisHTML += `<p><em>This is a basic evaluation. AI-based analysis will enhance accuracy.</em></p>`;
+
+      document.getElementById('analysisResult').innerHTML = analysisHTML;
+      generateChart();
+    }
+
+    function generateChart() {
+      const ctx = document.getElementById('expenseChart');
+      ctx.style.display = 'block';
+
+      const labels = categories.map(entry => entry.category);
+      const data = categories.map(entry => entry.amount);
+
+      if (window.myChart) {
+        window.myChart.destroy();
+      }
+
+      window.myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Expense Distribution',
+            data: data,
+            backgroundColor: [
+              '#42a5f5', '#66bb6a', '#ffa726', '#ef5350', '#ab47bc', '#29b6f6'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            },
+            title: {
+              display: true,
+              text: 'Expense Distribution by Category'
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
