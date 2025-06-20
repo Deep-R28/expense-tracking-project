@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Plan Budget with Friends - SplitMate</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      margin-top: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.35);
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .suggestions, .budget-list, .affirmation-list {
+      margin-top: 40px;
+      background: #f7fbff;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .suggestions h3, .budget-list h3, .affirmation-list h3 {
+      margin-bottom: 15px;
+      color: #34495e;
+    }
+
+    .suggestion-item, .budget-item, .affirmation-item {
+      background: #ffffff;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    }
+
+    .affirmation-item span {
+      font-weight: bold;
+    }
+
+    .affirmation-item span::before {
+      content: " ";
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Plan Budget with Friends</h1>
+    <p style="text-align:center;">Invite your friends and collaborate on shared budget planning for your trip or event.</p>
+
+    <form id="inviteForm">
+      <label>Invite Friends (use SplitMate usernames):</label>
+      <input type="text" id="invitedUsernames" placeholder="e.g. alice, bob, charlie" required>
+
+      <label>Initial Budget Proposal:</label>
+      <select id="expenseType">
+        <option value="">-- Select Common Expense --</option>
+        <option value="Room Fee">Room Fee</option>
+        <option value="Food Bill">Food Bill</option>
+        <option value="Transportation">Transportation</option>
+      </select>
+      <input type="number" id="estimatedAmount" placeholder="Estimated amount" required>
+
+      <button type="submit">Send Invite & Proposal</button>
+    </form>
+
+    <div class="budget-list">
+      <h3>Planned Expenses</h3>
+      <div id="budgetList"></div>
+    </div>
+
+    <div class="suggestions">
+      <h3>Suggestions & Budget Change Requests</h3>
+      <form id="suggestionForm">
+        <label>Expense/Issue Title:</label>
+        <input type="text" id="suggestionTitle" placeholder="e.g. Add Tour Guide Fees" required>
+
+        <label>Reasoning / Justification:</label>
+        <textarea id="suggestionReason" placeholder="Explain why this should be added or changed" rows="4" required></textarea>
+
+        <button type="submit">Submit Suggestion</button>
+      </form>
+
+      <div id="suggestionList"></div>
+    </div>
+
+    <div class="affirmation-list">
+      <h3>Friend Confirmations</h3>
+      <div id="confirmationList"></div>
+    </div>
+  </div>
+
+  <script>
+    const registeredUsers = ['alice', 'bob', 'charlie', 'diana', 'eric'];
+    const currentUser = 'alice';
+    let invitedFriends = [];
+    let confirmations = {};
+
+    document.getElementById('inviteForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const usernamesInput = document.getElementById('invitedUsernames').value.trim();
+      const userArray = usernamesInput.split(',').map(name => name.trim().toLowerCase()).filter(Boolean);
+
+      const invalidUsers = userArray.filter(user => !registeredUsers.includes(user));
+      if (invalidUsers.length > 0) {
+        alert("These usernames are not registered on SplitMate: " + invalidUsers.join(', '));
+        return;
+      }
+
+      invitedFriends = [...new Set([...invitedFriends, ...userArray])];
+      userArray.forEach(user => confirmations[user] = false);
+
+      const expenseType = document.getElementById('expenseType').value;
+      const amount = document.getElementById('estimatedAmount').value;
+
+      if (!expenseType || !amount || isNaN(amount) || amount <= 0) {
+        alert("Please provide a valid expense type and amount.");
+        return;
+      }
+
+      const list = document.getElementById('budgetList');
+      const div = document.createElement('div');
+      div.className = 'budget-item';
+      div.innerHTML = `<strong>${expenseType}</strong>: ₹${parseFloat(amount).toFixed(2)}`;
+      list.appendChild(div);
+
+      updateConfirmations();
+      alert("Invites sent to: " + userArray.join(', ') + " with budget proposal.");
+      e.target.reset();
+    });
+
+    function updateConfirmations() {
+      const confirmationDiv = document.getElementById('confirmationList');
+      confirmationDiv.innerHTML = '';
+      invitedFriends.forEach(friend => {
+        const isConfirmed = confirmations[friend];
+        const div = document.createElement('div');
+        div.className = 'affirmation-item';
+        div.innerHTML = `<strong>${friend}</strong> - Status: <span>${isConfirmed ? '✅ Agreed' : '⏳ Waiting'}</span>`;
+        confirmationDiv.appendChild(div);
+      });
+    }
+
+    document.getElementById('suggestionForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('suggestionTitle').value.trim();
+      const reason = document.getElementById('suggestionReason').value.trim();
+
+      if (!title || !reason) return;
+
+      if (!invitedFriends.includes(currentUser)) {
+        alert("Only invited users can submit suggestions.");
+        return;
+      }
+
+      const list = document.getElementById('suggestionList');
+      const div = document.createElement('div');
+      div.className = 'suggestion-item';
+      div.innerHTML = `<strong>${title}</strong><p>${reason}</p><p><em>Suggested by ${currentUser}</em> - Status: Pending Approval</p>`;
+      list.appendChild(div);
+
+      e.target.reset();
+    });
+
+    // Simulate friend affirmations
+    setInterval(() => {
+      invitedFriends.forEach(friend => {
+        if (!confirmations[friend] && Math.random() < 0.1) {
+          confirmations[friend] = true;
+          updateConfirmations();
+        }
+      });
+    }, 5000);
+  </script>
+</body>
+</html>
