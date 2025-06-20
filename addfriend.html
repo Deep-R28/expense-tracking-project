@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Friends - SplitMate</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f3e5f5, #e8f5e9);
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #6a1b9a;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #8e24aa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #6a1b9a;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .message.success {
+      color: green;
+    }
+
+    .message.error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Add Friends</h1>
+    <p style="text-align:center;">Send friend requests to other users using their SplitMate usernames.</p>
+
+    <form id="friendForm">
+      <label>Friend's Username:</label>
+      <input type="text" id="friendUsername" placeholder="Enter friend's username" required>
+      <button type="submit">Send Friend Request</button>
+    </form>
+
+    <div id="feedback" class="message"></div>
+  </div>
+
+  <script>
+    const registeredUsers = ['alice', 'bob', 'charlie', 'dranzer', 'uttpal']; // mock user database
+
+    document.getElementById('friendForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = document.getElementById('friendUsername').value.trim().toLowerCase();
+      const feedback = document.getElementById('feedback');
+
+      if (!username) {
+        feedback.textContent = "Please enter a username.";
+        feedback.className = "message error";
+        return;
+      }
+
+      if (registeredUsers.includes(username)) {
+        feedback.textContent = `Friend request sent to @${username}!`;
+        feedback.className = "message success";
+      } else {
+        feedback.textContent = `No user found with username '@${username}'.`;
+        feedback.className = "message error";
+      }
+    });
+  </script>
+</body>
+</html>
